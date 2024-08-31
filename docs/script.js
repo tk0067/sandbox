@@ -35,11 +35,13 @@ function solveHanoiWithDelay(n, from, to, aux, towers) {
 
     setTimeout(() => {
         solveHanoiWithDelay(n - 1, from, aux, to, towers);
-        towers[to].push(towers[from].pop());
-        renderTowers(towers);
-        logMove(from, to);
         setTimeout(() => {
-            solveHanoiWithDelay(n - 1, aux, to, from, towers);
+            towers[to].push(towers[from].pop());
+            renderTowers(towers);
+            logMove(from, to);
+            setTimeout(() => {
+                solveHanoiWithDelay(n - 1, aux, to, from, towers);
+            }, 1000);
         }, 1000);
     }, 1000);
 }

@@ -4,6 +4,7 @@ function createDisc(size) {
     disc.classList.add('disc');
     disc.style.width = size * 20 + 'px';
     disc.style.height = size * 10 + 'px';
+    disc.draggable = true;
     return disc;
   }
   
@@ -43,12 +44,10 @@ function createDisc(size) {
     });
   
     rod.addEventListener('drop', (event) => {
-      const discId = event.dataTransfer.getData('text/plain');
-      const disc = document.getElementById(discId);
+      const disc = event.dataTransfer.getData('text/plain');
       const targetRod = event.target;
-      // 移動先の棒の一番上の円盤を取得 (省略)
-      // 移動可能か判定
-      if (/* 移動可能であれば */) {
+      const targetDisc = targetRod.lastChild;
+      if (!targetDisc || disc.offsetHeight > targetDisc.offsetHeight) {
         moveDisc(disc.parentNode.id, targetRod.id);
       }
     });

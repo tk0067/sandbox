@@ -11,8 +11,12 @@ function startGame() {
 
     renderTowers(towers);
 
-    // Solve the puzzle with delay
-    solveHanoiWithDelay(numDisks, 0, 2, 1, towers);
+    // Create a queue for moves
+    const moves = [];
+    solveHanoi(numDisks, 0, 2, 1, moves);
+
+    // Execute moves with delay
+    executeMoves(moves, towers);
 }
 
 function renderTowers(towers) {
@@ -30,19 +34,23 @@ function renderTowers(towers) {
     }
 }
 
-function solveHanoiWithDelay(n, from, to, aux, towers) {
+function solveHanoi(n, from, to, aux, moves) {
     if (n === 0) return;
+    solveHanoi(n - 1, from, aux, to, moves);
+    moves.push([from, to]);
+    solveHanoi(n - 1, aux, to, from, moves);
+}
+
+function executeMoves(moves, towers) {
+    if (moves.length === 0) return;
+
+    const [from, to] = moves.shift();
+    towers[to].push(towers[from].pop());
+    renderTowers(towers);
+    logMove(from, to);
 
     setTimeout(() => {
-        solveHanoiWithDelay(n - 1, from, aux, to, towers);
-        setTimeout(() => {
-            towers[to].push(towers[from].pop());
-            renderTowers(towers);
-            logMove(from, to);
-            setTimeout(() => {
-                solveHanoiWithDelay(n - 1, aux, to, from, towers);
-            }, 1000);
-        }, 1000);
+        executeMoves(moves, towers);
     }, 1000);
 }
 

@@ -11,8 +11,8 @@ function startGame() {
 
     renderTowers(towers);
 
-    // Solve the puzzle
-    solveHanoi(numDisks, 0, 2, 1, towers);
+    // Solve the puzzle with delay
+    solveHanoiWithDelay(numDisks, 0, 2, 1, towers);
 }
 
 function renderTowers(towers) {
@@ -28,11 +28,15 @@ function renderTowers(towers) {
     }
 }
 
-function solveHanoi(n, from, to, aux, towers) {
+function solveHanoiWithDelay(n, from, to, aux, towers) {
     if (n === 0) return;
 
-    solveHanoi(n - 1, from, aux, to, towers);
-    towers[to].push(towers[from].pop());
-    renderTowers(towers);
-    solveHanoi(n - 1, aux, to, from, towers);
+    setTimeout(() => {
+        solveHanoiWithDelay(n - 1, from, aux, to, towers);
+        towers[to].push(towers[from].pop());
+        renderTowers(towers);
+        setTimeout(() => {
+            solveHanoiWithDelay(n - 1, aux, to, from, towers);
+        }, 1000);
+    }, 1000);
 }

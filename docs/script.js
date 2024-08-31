@@ -19,10 +19,12 @@ function renderTowers(towers) {
     for (let i = 0; i < towers.length; i++) {
         const tower = document.getElementById(`tower${i + 1}`);
         tower.innerHTML = '';
-        towers[i].forEach(disk => {
+        towers[i].forEach((disk, index) => {
             const diskElement = document.createElement('div');
             diskElement.className = 'disk';
             diskElement.style.width = `${disk * 20}px`;
+            diskElement.style.bottom = `${index * 20}px`;
+            diskElement.style.left = `calc(50% - ${disk * 10}px)`;
             tower.appendChild(diskElement);
         });
     }

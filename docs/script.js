@@ -46,9 +46,13 @@ function solveHanoiWithDelay(n, from, to, aux, towers) {
 
 function logMove(from, to) {
     const logElement = document.getElementById('log');
-    const moveMessage = `Moved disk from Tower ${from + 1} to Tower ${to + 1}`;
-    const logEntry = document.createElement('div');
-    logEntry.textContent = moveMessage;
-    logElement.appendChild(logEntry);
-    logElement.scrollTop = logElement.scrollHeight; // Auto-scroll to the latest log entry
+    if (logElement) {
+        const moveMessage = `Moved disk from Tower ${from + 1} to Tower ${to + 1}`;
+        const logEntry = document.createElement('div');
+        logEntry.textContent = moveMessage;
+        logElement.appendChild(logEntry);
+        logElement.scrollTop = logElement.scrollHeight; // Auto-scroll to the latest log entry
+    } else {
+        console.error('Log element not found');
+    }
 }

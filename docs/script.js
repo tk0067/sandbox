@@ -1,62 +1,38 @@
-// 円盤の要素を作成する関数
-function createDisc(size) {
-    const disc = document.createElement('div');
-    disc.classList.add('disc');
-    disc.style.width = size * 20 + 'px';
-    disc.style.height = size * 10 + 'px';
-    disc.draggable = true;
-    return disc;
-  }
-  
-  // ハノイの塔のアルゴリズム（再帰関数）
-  function hanoi(n, fromRod, toRod, auxRod) {
-    if (n === 1) {
-      moveDisc(fromRod, toRod);
-    } else {
-      hanoi(n - 1, fromRod, auxRod, toRod);
-      moveDisc(fromRod, toRod);
-      hanoi(n - 1, auxRod, toRod, fromRod);
+document.getElementById('startButton').addEventListener('click', startGame);
+
+function startGame() {
+    const towers = [[], [], []];
+    const numDisks = 3;
+
+    // Initialize the first tower with disks
+    for (let i = numDisks; i > 0; i--) {
+        towers[0].push(i);
     }
-  }
-  
-  // 円盤を移動する関数
-  function moveDisc(fromRodId, toRodId) {
-    const fromRod = document.getElementById(fromRodId);
-    const toRod = document.getElementById(toRodId);
-    const disc = fromRod.lastChild;
-    toRod.appendChild(disc);
-  }
-  
-  // 初期化処理
-  function initialize(numDiscs) {
-    const rod1 = document.getElementById('rod1');
-    for (let i = numDiscs; i > 0; i--) {
-      const disc = createDisc(i);
-      rod1.appendChild(disc);
+
+    renderTowers(towers);
+
+    // Solve the puzzle
+    solveHanoi(numDisks, 0, 2, 1, towers);
+}
+
+function renderTowers(towers) {
+    for (let i = 0; i < towers.length; i++) {
+        const tower = document.getElementById(`tower${i + 1}`);
+        tower.innerHTML = '';
+        towers[i].forEach(disk => {
+            const diskElement = document.createElement('div');
+            diskElement.className = 'disk';
+            diskElement.style.width = `${disk * 20}px`;
+            tower.appendChild(diskElement);
+        });
     }
-  }
-  
-  // イベントリスナーの設定
-  const rods = document.querySelectorAll('.rod');
-  rods.forEach(rod => {
-    rod.addEventListener('dragover', (event) => {
-      event.preventDefault();
-    });
-  
-    rod.addEventListener('drop', (event) => {
-      const disc = event.dataTransfer.getData('text/plain');
-      const targetRod = event.target;
-      const targetDisc = targetRod.lastChild;
-      if (!targetDisc || disc.offsetHeight > targetDisc.offsetHeight) {
-        moveDisc(disc.parentNode.id, targetRod.id);
-      }
-    });
-  });
-  
-  // ドラッグ開始時のイベントリスナー
-  document.addEventListener('dragstart', (event) => {
-    event.dataTransfer.setData('text/plain', event.target.id);
-  });
-  
-  // 初期化
-  initialize(3); // 例として3枚の円盤
+}
+
+function solveHanoi(n, from, to, aux, towers) {
+    if (n === 0) return;
+
+    solveHanoi(n - 1, from, aux, to, towers);
+    towers[to].push(towers[from].pop());
+    renderTowers(towers);
+    solveHanoi(n - 1, aux, to, from, towers);
+}

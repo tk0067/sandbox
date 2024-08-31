@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+#towers {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.tower {
+    width: 100px;
+    height: 300px;
+    margin: 0 10px;
+    background-color: #ccc;
+    position: relative;
+}
+
+.disk {
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    height: 20px;
+    background-color: #ff6347;
+    margin: 0 auto;
+    border: 1px solid #000;
+}

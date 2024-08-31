@@ -37,8 +37,18 @@ function solveHanoiWithDelay(n, from, to, aux, towers) {
         solveHanoiWithDelay(n - 1, from, aux, to, towers);
         towers[to].push(towers[from].pop());
         renderTowers(towers);
+        logMove(from, to);
         setTimeout(() => {
             solveHanoiWithDelay(n - 1, aux, to, from, towers);
         }, 1000);
     }, 1000);
+}
+
+function logMove(from, to) {
+    const logElement = document.getElementById('log');
+    const moveMessage = `Moved disk from Tower ${from + 1} to Tower ${to + 1}`;
+    const logEntry = document.createElement('div');
+    logEntry.textContent = moveMessage;
+    logElement.appendChild(logEntry);
+    logElement.scrollTop = logElement.scrollHeight; // Auto-scroll to the latest log entry
 }

@@ -2,7 +2,7 @@ document.getElementById('startButton').addEventListener('click', startGame);
 
 function startGame() {
     const towers = [[], [], []];
-    const numDisks = 3;
+    const numDisks = parseInt(document.getElementById('numDisks').value, 10);
 
     // Initialize the first tower with disks
     for (let i = numDisks; i > 0; i--) {
